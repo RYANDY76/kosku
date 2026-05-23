@@ -64,9 +64,15 @@
                 <div><i class="bi bi-geo-alt"></i><span>Area</span><strong>{{ $kos->lokasi_area ?: 'Palu' }}</strong></div>
             </div>
             <div class="d-grid gap-2 detail-cta-group">
-                @auth
-                    <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#bookingModal"><i class="bi bi-calendar2-check me-1"></i> Ajukan Sewa</button>
-                @else
+               @auth
+    @if(auth()->user()->role === 'user')
+        <button class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#bookingModal"><i class="bi bi-calendar2-check me-1"></i> Ajukan Sewa</button>
+    @elseif(auth()->user()->role === 'pemilik')
+        <div class="alert alert-warning py-2 px-3 mb-0 text-center" style="font-size:.9rem">
+            <i class="bi bi-info-circle me-1"></i> Pemilik kos tidak dapat melakukan booking.
+        </div>
+    @endif
+    @else
                     <a href="{{ route('login') }}" class="btn btn-primary btn-lg"><i class="bi bi-box-arrow-in-right me-1"></i> Login untuk Booking</a>
                 @endauth
                 <a target="_blank" href="{{ $kos->whats_app_url }}" class="btn btn-outline-success"><i class="bi bi-whatsapp me-1"></i> Chat Pemilik</a>
@@ -124,7 +130,7 @@
                         @auth
                             @if(auth()->user()->role === 'admin' || auth()->id() === $kos->user_id)
                                 <a class="btn btn-warning btn-sm w-100" href="{{ route('dashboard.kelola-kos.kamar.edit', [$kos, $kamar]) }}"><i class="bi bi-pencil"></i> Edit</a>
-                            @else
+                            @elseif(auth()->user()->role === 'user')
                                 <button class="btn btn-primary btn-sm w-100" data-bs-toggle="modal" data-bs-target="#bookingModal" data-kamar-id="{{ $kamar->id }}">Ajukan Sewa</button>
                             @endif
                         @else
@@ -224,7 +230,9 @@
 <div class="modal fade" id="photoModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog modal-xl modal-dialog-centered"><div class="modal-content border-0 rounded-4 overflow-hidden"><div class="modal-header"><h5 class="modal-title" id="photoModalLabel">Foto Kos</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body p-0 bg-dark text-center"><img id="photoModalImage" src="{{ $kos->foto_url }}" alt="Foto kos" class="img-fluid w-100" style="max-height:80vh;object-fit:contain;"></div></div></div></div>
 
 @auth
+@if(auth()->user()->role === 'user')
 <div class="modal fade" id="bookingModal" tabindex="-1" aria-hidden="true"><div class="modal-dialog"><form class="modal-content" method="POST" action="{{ route('dashboard.bookings.store', $kos) }}">@csrf<div class="modal-header"><h5 class="modal-title">Ajukan Sewa {{ $kos->nama_kos }}</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="mb-3"><label class="form-label">Pilih Kamar</label><select name="kamar_id" id="bookingKamarSelect" class="form-select"><option value="">Pilih kamar</option>@foreach($kos->kamar as $kamar)<option value="{{ $kamar->id }}">{{ $kamar->kode_kamar ?: $kamar->tipe_kamar }} - {{ $kamar->harga_rupiah }}</option>@endforeach</select></div><div class="mb-3"><label class="form-label">Nama Pemesan</label><input name="nama_pemesan" value="{{ auth()->user()->name }}" class="form-control" required></div><div class="mb-3"><label class="form-label">No WhatsApp</label><input name="no_wa" value="{{ auth()->user()->profile->no_wa ?? '' }}" class="form-control" placeholder="62812xxxx" required></div><div class="mb-3"><label class="form-label">Rencana Masuk</label><input type="date" name="tanggal_masuk" class="form-control" min="{{ date('Y-m-d') }}"></div><div class="mb-3"><label class="form-label">Catatan</label><textarea name="catatan" rows="3" class="form-control" placeholder="Tulis catatan tambahan bila diperlukan"></textarea></div></div><div class="modal-footer"><button type="button" class="btn btn-light" data-bs-dismiss="modal">Batal</button><button class="btn btn-primary">Kirim Pengajuan</button></div></form></div></div>
+@endif
 @endauth
 @endsection
 
