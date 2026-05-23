@@ -232,3 +232,15 @@ body{letter-spacing:-.005em;}
 .pagination-wrap{padding-bottom:8px;}
 @media(max-width:991px){.detail-action-card{position:static}.gallery-main img{height:360px}.payment-meta-grid{grid-template-columns:1fr}}
 @media(max-width:768px){.user-market-card{padding:20px}.user-quick-links a{width:100%;justify-content:space-between}.detail-decision-list strong{margin-left:0}.detail-decision-list div{align-items:flex-start;flex-direction:column}.gallery-main img{height:300px}}
+
+/* How it works section */
+.landing-how-it-works{padding:50px 0;background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+.how-it-works-grid{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:0;align-items:center;}
+.how-step-card{background:#f8fafc;border:1px solid var(--line);border-radius:16px;padding:28px 22px;text-align:center;position:relative;transition:.2s;}
+.how-step-card:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(15,23,42,.08);}
+.how-step-number{position:absolute;top:-14px;left:50%;transform:translateX(-50%);width:28px;height:28px;background:var(--primary);color:#fff;border-radius:50%;font-size:.8rem;font-weight:700;display:grid;place-items:center;}
+.how-step-icon{width:56px;height:56px;background:#eef5ff;color:var(--primary);border-radius:16px;display:grid;place-items:center;margin:0 auto 14px;font-size:1.5rem;}
+.how-step-card h4{font-weight:700;margin:0 0 8px;color:var(--ink);}
+.how-step-card p{color:var(--muted);margin:0;font-size:.9rem;line-height:1.65;}
+.how-step-arrow{display:flex;align-items:center;justify-content:center;padding:0 16px;color:#cbd5e1;font-size:1.4rem;}
+@media(max-width:768px){.how-it-works-grid{grid-template-columns:1fr;gap:12px;}.how-step-arrow{transform:rotate(90deg);padding:4px 0;}}
